@@ -24,7 +24,7 @@ Allows user to search for any user account register with github and display the 
 
 ```
  git clone https://github.com/Bright-Abel/github-user-search.git
- cd mediconn
+ cd github-user-search
  npm install
 ```
 
