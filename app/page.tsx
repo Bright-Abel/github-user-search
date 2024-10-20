@@ -1,101 +1,92 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import SearchBar from '@/components/SearchBar';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
+import { userList } from '@/mockData/data-json';
+import { RiShareBoxLine } from 'react-icons/ri';
+
+const Page = () => {
+  const router = useRouter();
+  const [username, setUsername] = useState<string | undefined>('');
+
+  // Initialize AOS when the component mounts
+  useEffect(() => {
+    AOS.init({
+      duration: 1200,
+      // easing: 'ease-in-sine',
+      anchorPlacement: 'center-bottom',
+    });
+  }, []);
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    window.location.hash = '';
+    if (username) {
+      if (username.includes(' ')) {
+        username.replace(' ', '-');
+      }
+      router.push(`/user/${username}`);
+      setUsername(undefined);
+    }
+  };
+
+  const handleClick = (userName: string) => {
+    if (userName) {
+      if (userName.includes(' ')) {
+        userName.replace(' ', '-');
+      }
+      router.push(`/user/${userName}`);
+      setUsername(undefined);
+    }
+  };
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="https://nextjs.org/icons/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="https://nextjs.org/icons/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+    <div className="max-h-[calc(100vh-64px)] min-h-[calc(100vh-64px)] w-full flex justify-center items-center">
+      <div
+        className="bg-[#f1f5f8] py-4 max-w-screen-md w-full h-[40vh] rounded-xl flex flex-col shadow-xl dark:shadow-none dark:text-[#ffffffe0] dark:bg-dark-500"
+        data-aos="flip-up"
+        data-aos-delay="400" // Add AOS animation effect here
+      >
+        <section
+          className="w-full px-4 dark:text-light-100 text-dark-500"
+          data-aos="fade-right" // Another AOS effect for the section
+          data-aos-delay="800"
+        >
+          <h2 className="text-xl lg:text-2xl xl:text-4xl font-bold">
+            Hey there 👋
+          </h2>
+          <p className="text-lg lg:text-xl">Search for a github user</p>
+        </section>
+        <div
+          className="flex w-full h-full flex-col justify-center items-center"
+          data-aos="zoom-in" // Zoom-in effect for the SearchBar container
+          data-aos-delay="600"
+        >
+          <SearchBar
+            username={username}
+            setUsername={setUsername}
+            handleSubmit={handleSubmit}
+          />
+          <div className="flex gap-2 md:-ml-16 flex-wrap px-2">
+            {userList.map((item, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleClick(item)}
+                className="dark:bg-[#ffffff19] relative bg-gray-300 text-gray-900 hover:opacity-80 ease duration-500 shadow-lg dark:shadow-none dark:text-light-100 capitalize py-1 px-2 md:py-3 rounded-lg mt-2 whitespace-nowrap "
+              >
+                {item}
+                <RiShareBoxLine className="absolute hidden md:block text-sm right-0 top-0" />
+              </button>
+            ))}
+          </div>
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="https://nextjs.org/icons/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      </div>
     </div>
   );
-}
+};
+
+export default Page;
