@@ -56,7 +56,7 @@ const Repositories = ({ username }: { username: string }) => {
           setLastPage(newLastPage!);
         }
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError('Failed to load repositories.');
         setLoading(false);
       }
@@ -98,11 +98,11 @@ const Repositories = ({ username }: { username: string }) => {
       <div className="border border-solid border-gray-600 dark:border-dark-500 rounded-xl ">
         <div className="bg-slate-300 dark:bg-dark-500 text-gray-800 dark:text-gray-200 w-full py-6 px-6 flex justify-between items-center rounded-t-xl">
           <h2 className="capitalize text-lg xl:text-xl font-semibold ">
-            {username.replace('-', ' ')}'s Repositories
+            {username.replace('-', ' ')}&apos;s Repositories
           </h2>
         </div>
         <div className=" grid grid-cols-1 md:grid-cols-2 px-3 md:px-6 w-full gap-y-5 gap-x-4 py-4">
-          {repos.map((item) => {
+          {repos.map((item, index) => {
             const {
               name,
               html_url,
@@ -111,7 +111,10 @@ const Repositories = ({ username }: { username: string }) => {
               forks_count,
             } = item;
             return (
-              <div className="bg-light-400 p-4  dark:bg-dark-500 rounded-xl shadow-lg duration-500 dark:shadow-none">
+              <div
+                key={index}
+                className="bg-light-400 p-4  dark:bg-dark-500 rounded-xl shadow-lg duration-500 dark:shadow-none"
+              >
                 <span className="">
                   <Link
                     href={html_url}

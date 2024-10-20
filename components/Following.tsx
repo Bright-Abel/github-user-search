@@ -17,7 +17,7 @@ const Following = ({ username }: { username: string }) => {
         setFollower(followers as FollowersProps[]);
 
         setLoading(false);
-      } catch (err) {
+      } catch {
         setError('Failed to load followers');
         setLoading(false);
       }

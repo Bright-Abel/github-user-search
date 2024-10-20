@@ -1,4 +1,3 @@
-import { CardProps } from '@/lib/types';
 import Card from './Card';
 import { GoRepo } from 'react-icons/go';
 import { BsFileCode } from 'react-icons/bs';

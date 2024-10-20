@@ -2,7 +2,7 @@
 
 import { BsSearch } from 'react-icons/bs';
 import { IoMdMic } from 'react-icons/io';
-import { useState, useEffect, useRef } from 'react';
+
 import { useRouter } from 'next/navigation';
 
 declare global {
@@ -26,8 +26,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
   handleSubmit,
 }) => {
   const router = useRouter();
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   const startListening = () => {
     const SpeechRecognition =
@@ -55,13 +53,6 @@ const SearchBar: React.FC<SearchBarProps> = ({
     } else {
       alert('Speech Recognition is not supported in this browser.');
     }
-  };
-
-  const handleFocus = () => {
-    window.location.hash = 'searching';
-    setTimeout(() => {
-      inputRef.current?.focus();
-    }, 0);
   };
 
   return (

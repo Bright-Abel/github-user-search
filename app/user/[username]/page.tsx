@@ -3,7 +3,7 @@
 import { getUsers } from '@/lib/action';
 import { HeadersProps, SearchParamProps, UserProps } from '@/lib/types';
 import { useEffect, useState } from 'react';
-import { newUser } from '@/mockData/mockData';
+
 import UserCard from '@/components/UserCard';
 import UserBoard from '@/components/UserBoard';
 import Following from '@/components/Following';
@@ -11,7 +11,7 @@ import Repositories from '@/components/Repositories';
 import UserLimit from '@/components/UserLimit';
 import Error from '@/components/Error';
 
-const page = ({ params: { username } }: SearchParamProps) => {
+const UserPage = ({ params: { username } }: SearchParamProps) => {
   const [user, setUser] = useState<UserProps | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -31,7 +31,7 @@ const page = ({ params: { username } }: SearchParamProps) => {
           setError('User not found');
         }
         setLoading(false);
-      } catch (error) {
+      } catch {
         setError('Failed to fetch user data');
         setLoading(false);
       }
@@ -82,4 +82,4 @@ const page = ({ params: { username } }: SearchParamProps) => {
     </div>
   );
 };
-export default page;
+export default UserPage;
