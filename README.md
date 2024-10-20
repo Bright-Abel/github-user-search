@@ -42,7 +42,7 @@ Allows user to search for any user account register with github and display the 
 3. **Run the Server**
 
 ```
- npm run
+ npm run dev
 ```
 
 ## Environment Variables
