@@ -42,12 +42,25 @@ const UserPage = ({ params: { username } }: SearchParamProps) => {
     }
   }, [username]);
 
+
+  if (!loading && user == null) {
+    return (
+      <Error
+        errorTitle={'NO USER FOUND'}
+        subTitle={'Please search for a new user'}
+        imageLink={'/assets/svgs/repo-error.svg'}
+        link={true}
+      />
+    );
+  }
+
   if (!loading && Number(headers?.['x-ratelimit-remaining'] || '0') <= 1) {
     return (
       <Error
         errorTitle={'You Ran Out of Request'}
         subTitle={'OOOOOPS!! No more requests left'}
         imageLink={'/assets/svgs/repo-error.svg'}
+        link={true}
       />
     );
   }
@@ -58,6 +71,7 @@ const UserPage = ({ params: { username } }: SearchParamProps) => {
         errorTitle={error}
         subTitle={'OOOOOPS!! There was an error!!'}
         imageLink={'/assets/svgs/repo-error.svg'}
+        link={true}
       />
     );
   }
@@ -75,9 +89,9 @@ const UserPage = ({ params: { username } }: SearchParamProps) => {
       <div className="w-full mt-14 flex flex-col gap-14">
         <div className="grid gap-y-20 gap-x-12 lg:grid-cols-2 grid-cols-1">
           <UserBoard user={user} loading={loading} />
-          <Following username={username} />
+          <Following username={user?.login} />
         </div>
-        <Repositories username={username} />
+        <Repositories username={user?.login} />
       </div>
     </div>
   );

@@ -20,8 +20,6 @@ export default function SkeletonProvider({
       setCurrentTheme(theme);
     }
   }, [theme, systemTheme]);
-  console.log('THEME', theme);
-  console.log('CURRENT', theme)
 
   return (
     <SkeletonTheme
